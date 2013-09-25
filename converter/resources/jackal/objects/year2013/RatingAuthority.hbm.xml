@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="jackal.objects.year2013" default-access="field">
+    <class name="RatingAuthority" mutable="false" subselect="SELECT ID,KOD,NAIMK,NAIM,DATAN,DATAK FROM SOUN_L">
+        <cache usage="read-only"/>
+        <id name="id" column="ID"/>
+        <property name="code" column="KOD" length="4"/>
+        <property name="nameShort" column="NAIMK"/>
+        <property name="nameFull" column="NAIM"/>
+        <property name="dateFrom" column="DATAN" type="date"/>
+        <property name="dateTo" column="DATAK" type="date"/>
+    </class>
+</hibernate-mapping>

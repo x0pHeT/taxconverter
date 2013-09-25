@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+$Rev: 193 $
+$Author: jackal $
+$Date: 2013-04-18 09:27:12 +0400 (Чт, 18 апр 2013) $
+-->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="jackal.objects.year2013" default-access="field">
+    <class name="ComplaintAppealDoc" table="COMPL_APPEAL_DOC">
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="sortIdx" column="SORTIDX" access="field" not-null="true"/>
+
+        <many-to-one name="complControlType" lazy="false" unique="true" entity-name="ComplControlType">
+            <column name="CONTROL_TYPE_ID" not-null="false"/>
+        </many-to-one>
+        <many-to-one name="complAppealDocType" lazy="false" unique="true" entity-name="ComplAppealDocType">
+            <column name="APPEAL_DOC_TYPE_ID" not-null="false"/>
+        </many-to-one>
+        <property name="appealDocNum" column="APPEAL_DOC_NUM"/>
+        <property name="appealDocDate" column="APPEAL_DOC_DATE" type="date"/>
+        <property name="FLD_12" access="field"/>
+        <property name="FLD_12_1"/>
+        <property name="FLD_12_2"/>
+        <property name="FLD_12_3"/>
+        <property name="FLD_12_4"/>
+        <property name="FLD_12_5"/>
+        <property name="FLD_12_6"/>
+        <property name="FLD_12_7"/>
+        <property name="FLD_12_8"/>
+        <property name="FLD_12_9"/>
+        <property name="FLD_12_10"/>
+        <property name="FLD_12_11"/>
+        <property name="FLD_12_12"/>
+    </class>
+</hibernate-mapping>

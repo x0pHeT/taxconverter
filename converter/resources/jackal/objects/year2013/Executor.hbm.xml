@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="jackal.objects.year2013">
+    <class name="Executor" table="EXECUTORS">
+        <cache usage="read-write"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="created" column="CREATED" not-null="true"/>
+        <property name="firstname" column="FIRSTNAME" not-null="true"/>
+        <property name="surname" column="SURNAME" not-null="true"/>
+        <property name="patronimyc" column="PATRONIMYC" not-null="false"/>
+        <property name="deleted" column="DELETED" not-null="true"/>
+        <property name="sortIdx" column="SORTIDX" access="field" not-null="true"/>
+    </class>
+
+</hibernate-mapping>

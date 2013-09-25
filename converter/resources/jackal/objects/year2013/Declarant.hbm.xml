@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="jackal.objects.year2013" default-access="field">
+    <class name="Declarant" table="DECLARANTS">
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="INN" column="INN"/>
+        <joined-subclass name="PhysicalPerson" table="FL">
+            <key column="DECLARANT_ID"/>
+                <property name="firstname" column="FIRSTNAME" not-null="true"/>
+                <property name="flSurname" column="SURNAME" not-null="true"/>
+                <property name="patronymic" column="PATRONYMIC"/>
+        </joined-subclass>
+        <joined-subclass name="IndividualEmployer" table="IP">
+            <key column="DECLARANT_ID"/>
+            <property name="firstname" column="FIRSTNAME" not-null="true"/>
+            <property name="ipSurname" column="SURNAME" not-null="true"/>
+            <property name="patronymic" column="PATRONYMIC"/>
+        </joined-subclass>
+        <joined-subclass name="JuridicalPerson" table="UL">
+            <key column="DECLARANT_ID"/>
+            <property name="title" column="TITLE"  not-null="true"/>
+            <property name="KPP" column="KPP" length="9"  not-null="true"/>
+            <property name="largestTaxpayer" column="LARGETAXPAYER" not-null="true"/>
+        </joined-subclass>
+    </class>
+</hibernate-mapping>
