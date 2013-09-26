@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <bean id="dataSource2014" class="oracle.jdbc.pool.OracleDataSource">
+        <property name="URL" value="jdbc:oracle:thin:@10.200.0.41:1521:express"/>
+        <property name="user" value="tax2014"/>
+        <property name="password" value="tax2014"/>
+    </bean>
+
+    <bean id="hibernateTransactionManager2014"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernateSessionFactory2014"/>
+        <qualifier value="hibernateTransactionManager"/>
+    </bean>
+
+    <bean id="hibernateSessionFactory2014" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource2014"/>
+        <property name="mappingDirectoryLocations" value="jackal/objects/year2014"/>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+                hibernate.jdbc.batch_size=0
+                hibernate.show_sql=true
+                hibernate.use_sql_comments=true
+                <!--hibernate.hbm2ddl.auto=validate-->
+                hibernate.cache.region.factory_class=org.hibernate.cache.ehcache.EhCacheRegionFactory
+                hibernate.bytecode.use_reflection_optimizer=true
+
+                hibernate.cache.use_query_cache=true
+                hibernate.cache.use_second_level_cache=true
+                hibernate.generate_statistics=true
+                hibernate.cache.use_structured_entries=true
+            </value>
+        </property>
+    </bean>
+</beans>

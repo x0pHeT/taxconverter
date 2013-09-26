@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="jackal.objects.year2014">
+    <class name="User" table="USERS">
+        <cache usage="read-write"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="firstname" column="FIRSTNAME" not-null="true"/>
+        <property name="surname" column="SURNAME" not-null="true"/>
+        <property name="patronimyc" column="PATRONIMYC" not-null="false"/>
+        <property name="enabled" column="ENABLED" not-null="true"/>
+        <property name="username" column="USERNAME" not-null="true" unique-key="USER_UNI" update="false"/>
+        <property name="password" column="PASSWORD" not-null="true"/>
+        <property name="created" column="CREATED" not-null="true"/>
+        <property name="role" column="ROLE" not-null="true"/>
+        <property name="deleted" column="DELETED" not-null="true"/>
+    </class> 
+
+</hibernate-mapping>

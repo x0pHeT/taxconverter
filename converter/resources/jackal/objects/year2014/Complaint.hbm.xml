@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+$Rev: 194 $
+$Author: jackal $
+$Date: 2013-04-18 13:01:33 +0400 (Чт, 18 апр 2013) $
+-->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="jackal.objects.year2014" default-access="field">
+    <class name="Complaint" table="COMPLAINTS" select-before-update="true">
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="journalNumber" column="JOURNALNUMBER"/>
+        <property name="createDate" column="CREATEDATE" not-null="true" type="date"/>
+        <many-to-one name="creator" lazy="proxy" unique="true">
+            <column name="CREATOR_ID" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="lastModifier" lazy="proxy" unique="true">
+            <column name="LASTMODIFIER_ID" not-null="true"/>
+        </many-to-one>
+        <!--Исполнитель-->
+        <many-to-one name="executor" lazy="proxy" unique="true" class="jackal.objects.year2014.Executor">
+            <column name="EXECUTOR_ID" not-null="true"/>
+        </many-to-one>
+        <property name="status" column="STATUS" type="jackal.support.ComplaintStatusType"/>
+        <property name="outDocNum" column="OUT_DOC_NUM"/>
+        <property name="outDocDate" column="OUT_DOC_DATE" type="date"/>
+        <property name="inDocNum" column="IN_DOC_NUM"/>
+        <property name="inDocDate" column="IN_DOC_DATE" type="date"/>
+        <property name="summary" column="SUMMARY" type="org.hibernate.type.MaterializedClobType" lazy="true"/>
+        <property name="secondPetition" column="SECOND_PETITION" not-null="true"/>
+        <property name="nameOfAuthority" column="NAME_OF_AUTHORITY"/>
+        <many-to-one name="complaintDiscriminate" lazy="proxy" unique="true" entity-name="ComplaintDiscriminate">
+            <column name="PRIZNAK_ID" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="legalAct" lazy="proxy" unique="true" entity-name="ComplaintLegalAct">
+            <column name="LEGAL_ACT_ID" not-null="true"/>
+        </many-to-one>
+        <property name="deadline1" column="DEADLINE1" type="date"/>
+        <property name="deadline2" column="DEADLINE2" type="date"/>
+        <property name="deadline3" column="DEADLINE3" type="date"/>
+        <property name="deadline4" column="DEADLINE4" type="date"/>
+        <property name="prolongationNum" column="PROLONGATION_NUM"/>
+        <property name="prolongationDate" column="PROLONGATION_DATE" type="date"/>
+        <!--Заявитель-->
+        <many-to-one name="declarant" lazy="false" unique="true" class="Declarant" cascade="all-delete-orphan">
+            <column name="DECLARANT_ID" not-null="true"/>
+        </many-to-one>
+        <!--Список обжалуемых документов-->
+        <list name="appealDocs" table="COMPL_APP_DOCS_LINKS" lazy="true" cascade="all-delete-orphan">
+            <key column="COMPLAINT_ID"/>
+            <list-index column="SORTIDX"/>
+            <many-to-many column="APPEALDOC_ID" class="ComplaintAppealDoc" unique="true"/>
+        </list>
+        <property name="FLD_13"/>
+        <!--Налоговая и административная ответственность-->
+        <list name="responsibilities" table="COMPL_RESP_LINKS" lazy="true" cascade="save-update">
+            <key column="COMPLAINT_ID"/>
+            <list-index column="SORTIDX"/>
+            <many-to-many column="RESPONSIBILITY_ID" entity-name="ComplResponsibility"/>
+        </list>
+        <!--Список налоговых оргонов в жалобе-->
+        <set name="taxAuthorities" table="COMPL_TAX_AUTHORITY" lazy="true" cascade="save-update">
+            <key column="COMPLAINT_ID"/>
+            <many-to-many column="TAX_AUTHORITY_ID"
+                          class="RatingAuthority" unique="false" foreign-key="FK_COMPL_TAX_SOUN"/>
+        </set>
+        <property name="underTaxAuthorityInDocNum" column="UNDER_IN_DOC_NUM"/>
+        <property name="underTaxAuthorityInDocDate" column="UNDER_IN_DOC_DATE" type="date"/>
+        <!--Список запросов в ВНО-->
+        <set name="inquires" table="COMPL_INQUIRES" lazy="true" cascade="all-delete-orphan">
+            <key column="COMPLAINT_ID"/>
+            <one-to-many class="ComplaintInquiry"/>
+        </set>
+        <!--Список заключений из ННО-->
+        <set name="conclusions" table="COMPL_CONCLUSIONS" lazy="true"  cascade="all-delete-orphan">
+            <key column="COMPLAINT_ID"/>
+            <one-to-many class="ComplaintConclusion"/>
+        </set>
+        <property name="telephoneMessageNum"/>
+        <property name="telephoneMessageDate" type="date"/>
+        <property name="whoTookFIO"/>
+        <property name="revocationNum"/>
+        <property name="revocationDate" type="date"/>
+        <!--Результат по жалобе-->
+        <many-to-one name="result" lazy="proxy" unique="true" entity-name="ComplResult">
+            <column name="RESULT_ID" not-null="false"/>
+        </many-to-one>
+        <many-to-one name="jurisdiction" lazy="proxy" unique="true"
+                     class="RatingAuthority" foreign-key="FK_COMPL_SOUN">
+            <column name="JURISDICTION_ID" not-null="false"/>
+        </many-to-one>
+        <!--Результат рассмотрения жалобы-->
+        <many-to-one name="resultOfConsideration" lazy="proxy" unique="true" entity-name="ComplResultOfConsideration">
+            <column name="RESULT_CONSIDERATION_ID" not-null="false"/>
+        </many-to-one>
+        <property name="underAuthorityDecisionNum"/>
+        <property name="underAuthorityDecisionDate" type="date"/>
+        <property name="decisionNum"/>
+        <property name="decisionDate" type="date"/>
+
+        <property name="FLD_23"/>
+        <property name="FLD_23_1"/>
+        <property name="FLD_23_2"/>
+        <property name="FLD_23_3"/>
+        <property name="FLD_23_4"/>
+        <property name="FLD_23_5"/>
+        <property name="FLD_23_6"/>
+        <property name="FLD_23_7"/>
+        <property name="FLD_23_8"/>
+        <property name="FLD_23_9"/>
+        <property name="FLD_23_10"/>
+        <property name="FLD_23_11"/>
+        <property name="FLD_23_12"/>
+        <property name="FLD_24"/>
+        <property name="FLD_25"/>
+        <property name="FLD_25_1"/>
+        <property name="FLD_25_2"/>
+        <property name="FLD_25_3"/>
+        <property name="FLD_25_4"/>
+        <property name="FLD_25_5"/>
+        <property name="FLD_25_6"/>
+        <property name="FLD_25_7"/>
+        <property name="FLD_25_8"/>
+        <set name="appealTaxType" table="COMPL_TAX_TYPE_LINKS" lazy="true" cascade="save-update">
+            <key column="COMPLAINT_ID"/>
+            <many-to-many column="TAX_TYPE_ID" entity-name="ComplAppealTaxType" unique="false"/>
+        </set>
+        <property name="notice" column="NOTICE" type="org.hibernate.type.MaterializedClobType" lazy="true"/>
+    </class>
+
+    <!--Создание дополнительных объектов в БД-->
+    <!--<database-object>
+        <create><![CDATA[CREATE TABLE DEBUG_MSGS(MESSAGE VARCHAR2(2048 BYTE),INSERTDATE  DATE)]]></create>
+        <drop><![CDATA[drop table DEBUG_MSGS]]></drop>
+        <dialect-scope name="org.hibernate.dialect.Oracle9iDialect"/>
+        <dialect-scope name="org.hibernate.dialect.Oracle10gDialect"/>
+    </database-object>-->
+    <database-object>
+        <create>
+            <![CDATA[ CREATE TABLE COMPL_LOCKTABLE (ID  CHAR(1 BYTE) PRIMARY KEY NOT NULL) ]]>
+        </create>
+        <drop><![CDATA[drop table COMPL_LOCKTABLE]]></drop>
+        <dialect-scope name="org.hibernate.dialect.Oracle9iDialect"/>
+        <dialect-scope name="org.hibernate.dialect.Oracle10gDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            <![CDATA[ INSERT INTO COMPL_LOCKTABLE VALUES('F') ]]>
+        </create>
+        <drop><![CDATA[ select 'fake drop into hibernatemapping' from dual ]]></drop>
+        <dialect-scope name="org.hibernate.dialect.Oracle9iDialect"/>
+        <dialect-scope name="org.hibernate.dialect.Oracle10gDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            <![CDATA[CREATE OR REPLACE FUNCTION compl_max_num (create_date TIMESTAMP)
+                   RETURN NUMBER
+                IS
+                   RESULT   NUMBER;
+                   FAKE     CHAR;
+                BEGIN
+                       SELECT   ID
+                         INTO   FAKE
+                         FROM   compl_locktable
+                   FOR UPDATE   ;
+
+                   SELECT   COUNT (*) + 1
+                     INTO   RESULT
+                     FROM   complaints
+                    WHERE   TO_CHAR (createdate, 'YYYY') = TO_CHAR (create_date, 'YYYY');
+
+                   RETURN RESULT;
+                END;]]>
+        </create>
+        <drop><![CDATA[drop function compl_max_num]]></drop>
+        <dialect-scope name="org.hibernate.dialect.Oracle9iDialect"/>
+        <dialect-scope name="org.hibernate.dialect.Oracle10gDialect"/>
+    </database-object>
+    <database-object>
+        <create><![CDATA[CREATE OR REPLACE TRIGGER compl_jnum_trg
+               BEFORE INSERT
+               ON COMPLAINTS    REFERENCING NEW AS NEW OLD AS OLD
+               FOR EACH ROW
+            BEGIN
+               :NEW.journalnumber := compl_max_num (:NEW.createdate);
+               :NEW.createdate := TO_DATE (TO_CHAR (SYSDATE, 'DD.MM.YYYY'), 'DD.MM.YYYY');
+            END;]]>
+        </create>
+        <drop><![CDATA[drop trigger compl_jnum_trg]]></drop>
+        <dialect-scope name="org.hibernate.dialect.Oracle9iDialect"/>
+        <dialect-scope name="org.hibernate.dialect.Oracle10gDialect"/>
+    </database-object>
+</hibernate-mapping>
+

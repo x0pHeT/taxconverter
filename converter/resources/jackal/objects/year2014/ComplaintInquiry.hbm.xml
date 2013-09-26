@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+$Rev: 176 $
+$Author: jackal $
+$Date: 2013-03-01 16:37:28 +0400 (Пт., 01 марта 2013) $
+-->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="jackal.objects.year2014">
+    <class name="ComplaintInquiry" table="COMPL_INQUIRES">
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <many-to-one name="complaint" lazy="proxy" unique="true" class="jackal.objects.year2014.Complaint">
+            <column name="COMPLAINT_ID" not-null="false"/>
+        </many-to-one>
+        <property name="inquiryNum" column="INQUIRY_NUM"/>
+        <property name="inquiryDate" column="INQUIRY_DATE" type="date"/>
+        <set name="conclusions" table="COMPL_INQ_VS_CONCL" lazy="false" cascade="save-update">
+            <key column="INQUIRY_ID"/>
+            <many-to-many column="CONCLUSION_ID" class="ComplaintConclusion" unique="false"/>
+        </set>
+    </class>
+</hibernate-mapping>

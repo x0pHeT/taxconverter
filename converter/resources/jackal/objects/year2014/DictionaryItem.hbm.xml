@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="jackal.objects.year2014">
+    <!--ЖАЛОБА-->
+    <!--Признак жалобы-->
+    <class name="DictionaryItem" mutable="false" entity-name="ComplaintDiscriminate" table="COMPL_DISCRIMINATES">
+        <cache usage="read-only"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="code" column="CODE" not-null="false" type="string"/>
+        <property name="content" column="TEXT" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+    </class>
+
+    <!--Нормативно-правовой акт, регламентирующий срок рассмотрения жалобы (обращения)-->
+    <class name="DictionaryItem" mutable="false" entity-name="ComplaintLegalAct" table="COMPL_LEGAL_ACTS">
+        <cache usage="read-only"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="code" column="CODE" not-null="false" type="string"/>
+        <property name="content" column="TEXT" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+    </class>
+
+    <!--Вид контроля-->
+    <class name="DictionaryItem" mutable="false" entity-name="ComplControlType" table="COMPL_CONTROL_TYPES">
+        <cache usage="read-only"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="code" column="CODE" not-null="false" type="string"/>
+        <property name="content" column="TEXT" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+    </class>
+
+    <!--Вид обжалуемого документа (в том числе действия, бездействие)-->
+    <class name="DictionaryItem" mutable="false" entity-name="ComplAppealDocType" table="COMPL_APPEAL_DOC_TYPES">
+        <cache usage="read-only"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="code" column="CODE" not-null="false" type="string"/>
+        <property name="content" column="TEXT" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+    </class>
+
+    <!--Налоговая и административная ответственность-->
+    <class name="DictionaryItem" mutable="false" entity-name="ComplResponsibility" table="COMPL_RESPONSIBILITIES">
+        <cache usage="read-only"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="code" column="CODE" not-null="false" type="string"/>
+        <property name="content" column="TEXT" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+    </class>
+
+    <!--Результат по жалобе (обращению)-->
+    <class name="DictionaryItem" mutable="false" entity-name="ComplResult" table="COMPL_RESULTS">
+        <cache usage="read-only"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="code" column="CODE" not-null="false" type="string"/>
+        <property name="content" column="TEXT" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+    </class>
+
+    <!--Результат рассмотрения жалобы (обращения)-->
+    <class name="DictionaryItem" mutable="false" entity-name="ComplResultOfConsideration" table="COMPL_RESULTS_CONS">
+        <cache usage="read-only"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="code" column="CODE" not-null="false" type="string"/>
+        <property name="content" column="TEXT" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+    </class>
+
+    <!--Вид обжалуемого налога (сбора)-->
+    <class name="DictionaryItem" mutable="false" entity-name="ComplAppealTaxType" table="COMPL_TAX_TYPE">
+        <cache usage="read-only"/>
+        <id name="id" column="ID" access="field">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">SSEQUENCE</param>
+            </generator>
+        </id>
+        <property name="code" column="CODE" not-null="false" type="string"/>
+        <property name="content" column="TEXT" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+    </class>
+</hibernate-mapping>
