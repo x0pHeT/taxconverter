@@ -1,13 +1,11 @@
 package jackal.gui;
 
-import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 import jackal.support.ContextHolder;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 /**
  * User: jackal
@@ -21,9 +19,7 @@ public class Converter {
 
     private static Logger LOG = Logger.getLogger(Converter.class);
 
-    static {
-        ContextHolder.getContext();
-    }
+    private static MainForm mainForm;
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         LOG.debug("Starting application main window…");
@@ -31,8 +27,7 @@ public class Converter {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-
-                MainForm mainForm = new MainForm();
+                mainForm = new MainForm();
                 mainForm.pack();
                 Dimension dim = mainForm.getToolkit().getScreenSize();
                 mainForm.setLocation((dim.width - mainForm.getWidth()) / 2,
@@ -42,5 +37,19 @@ public class Converter {
             }
         });
         LOG.debug("Started.");
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainForm.addUserMessageFromOuterMethod("Добро пожаловать");
+                mainForm.addUserMessageFromOuterMethod("Загрузка контеста приложения…");
+            }
+        });
+        ContextHolder.getContext();
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainForm.addUserMessageFromOuterMethod("Загрузка завершена");
+            }
+        });
     }
 }

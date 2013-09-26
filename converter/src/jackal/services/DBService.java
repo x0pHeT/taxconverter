@@ -34,31 +34,23 @@ public class DBService {
     private JdbcTemplate template;
 
     @Autowired
-    private SessionFactory sessionFactory;
+    private SessionFactory hibernateSessionFactory2013;
 
     private Session getSession() {
-        return sessionFactory.getCurrentSession();
+        return hibernateSessionFactory2013.getCurrentSession();
     }
 
-    @Transactional("springTransactionManager")
-    public int getInt() {
-        return template.query("select 666 from dual", new ResultSetExtractor<Integer>() {
-            @Override
-            public Integer extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-                resultSet.next();
-                return resultSet.getInt(1);
-            }
-        });
+    @Transactional()
+    public void createTable(String createSql) {
+        template.execute(createSql);
     }
 
-    @Transactional(value = "hibernateTransactionManager", readOnly = true)
+    @Transactional(value = "hibernateTransactionManager2013", readOnly = true)
     public List getExecutors() {
-        /*Criteria c = getSession().createCriteria(Executor.class);
-        return c.list();*/
         return getSession().createQuery("from Executor").list();
     }
 
-    @Transactional("hibernateTransactionManager")
+    @Transactional("hibernateTransactionManager2013")
     public void addExecutors(Executor executor) {
         if(executor.getSortIdx()==null) {
             Integer idx = (Integer)getSession().createCriteria(Executor.class).setProjection(Projections.max("sortIdx")).uniqueResult();
@@ -72,7 +64,7 @@ public class DBService {
         getSession().save(executor);
     }
 
-    @Transactional("hibernateTransactionManager")
+    @Transactional("hibernateTransactionManager2013")
     public List<Complaint> getComplaintsList() {
         return getSession().createQuery("from Complaint").list();
     }

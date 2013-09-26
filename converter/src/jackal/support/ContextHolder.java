@@ -28,4 +28,8 @@ public class ContextHolder {
         if(dbService==null) dbService = (DBService)ContextHolder.getContext().getBean("dbService");
         return dbService;
     }
+
+    public static <T> T getBean(String beanName) {
+        return (T)ContextHolder.getContext().getBean(beanName);
+    }
 }

@@ -13,8 +13,6 @@
     <artifactId>converter</artifactId>
     <version>1.0</version>
 
-    <!--<packaging>jar</packaging>-->
-
     <name>TaxConverter</name>
 
     <properties>
@@ -23,6 +21,8 @@
         <junit.version>4.10</junit.version>
         <dbcp.version>1.4</dbcp.version>
         <log4j.vrsion>1.2.14</log4j.vrsion>
+        <slf4j.version>1.5.10</slf4j.version>
+        <hibernate.version>4.2.5.Final</hibernate.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.resourcesEncoding>UTF-8</project.resourcesEncoding>
@@ -36,6 +36,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>${dbcp.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>log4j</groupId>
@@ -46,14 +53,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.5.10</version>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.5.10</version>
-            <scope>test</scope>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
@@ -62,11 +68,6 @@
             <version>${oracle.jdbc.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>${dbcp.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -101,12 +102,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.2.5.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
-            <version>4.2.5.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <!--<dependency>
             <groupId>org.hibernate</groupId>
