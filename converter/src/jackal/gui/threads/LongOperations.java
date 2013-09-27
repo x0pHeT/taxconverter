@@ -1,4 +1,4 @@
-package jackal.gui;
+package jackal.gui.threads;
 
 /**
  * User: jackal
@@ -8,9 +8,9 @@ package jackal.gui;
  * $Author:$
  * $Date:$
  */
-public interface DBCreator {
+public interface LongOperations {
 
-    void createTables();
+    void execute();
 
     void cancel();
 }

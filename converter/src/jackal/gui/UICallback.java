@@ -10,13 +10,13 @@ package jackal.gui;
  */
 
 /**
- * Callback class to use from {@link DBCreator} to publish data, perform UI changes etc.
+ * Callback class to use from {@link jackal.gui.threads.LongOperations} to publish data, perform UI changes etc.
  */
 public interface UICallback {
 
     void addUserMessageFromOuterMethod(String message);
 
-    void disableCreateButton();
+    void disableButtons();
 
-    void enableCreateButton();
+    void enableButtons();
 }
