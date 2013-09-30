@@ -1,8 +1,6 @@
 package jackal.gui;
 
-import jackal.gui.threads.InitDicTheadImpl;
-import jackal.gui.threads.LongOperations;
-import jackal.gui.threads.TablesCreationThreadImpl;
+import jackal.gui.threads.*;
 import jackal.support.ContextHolder;
 import org.hibernate.dialect.Oracle10gDialect;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -143,18 +141,24 @@ public class MainForm extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             insertLogMessageRow("Импортируем пользователей из старой схемы");
+            LongOperations importUsersThread = new ImportUsersThreadImpl(new UICallbackImpl());
+            importUsersThread.execute();
         }
     }
     private class ImportExecutorsBtnListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             insertLogMessageRow("Импортируем исполнителей из старой схемы");
+            LongOperations importExecutorsThread = new ImportExecutorsThreadImpl(new UICallbackImpl());
+            importExecutorsThread.execute();
         }
     }
     private class ImportHolidaysBtnListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             insertLogMessageRow("Импортируем справочник праздников");
+            LongOperations importHolidaysThread = new ImportHolidaysThreadImpl(new UICallbackImpl());
+            importHolidaysThread.execute();
         }
     }
     private class ImportComplaintsBtnListener implements ActionListener {

@@ -4,6 +4,7 @@ import jackal.objects.year2013.Complaint;
 import jackal.services.DBService;
 import org.apache.log4j.Logger;
 import org.hibernate.dialect.Oracle10gDialect;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,13 +42,6 @@ public class MappingTests extends AbstractTransactionalJUnit4SpringContextTests 
 
     @Autowired
     ApplicationContext context;
-
-    @Test
-    /*@Rollback(true)*/
-    @Transactional("hibernateTransactionManager2013")
-    public void getComplaintsList() {
-        List<Complaint> result = dbService.getComplaintsList();
-    }
 
     @Test
     @Transactional("hibernateTransactionManager2014")

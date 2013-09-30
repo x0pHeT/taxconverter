@@ -1,8 +1,10 @@
 package jackal.services;
 
 import jackal.objects.year2013.Complaint;
-import jackal.objects.year2013.Executor;
 import jackal.objects.year2014.DictionaryItem;
+import jackal.objects.year2014.Executor;
+import jackal.objects.year2014.Holiday;
+import jackal.objects.year2014.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -32,8 +34,15 @@ public class DBService {
     @Autowired
     private SessionFactory hibernateSessionFactory2014;
 
-    private Session getSession() {
+    @Autowired
+    private SessionFactory hibernateSessionFactory2013;
+
+    private Session getSession2014() {
         return hibernateSessionFactory2014.getCurrentSession();
+    }
+
+    private Session getSession2013() {
+        return hibernateSessionFactory2013.getCurrentSession();
     }
 
     @Transactional
@@ -41,34 +50,10 @@ public class DBService {
         template.execute(createSql);
     }
 
-    @Transactional(value = "hibernateTransactionManager2013", readOnly = true)
-    public List getExecutors() {
-        return getSession().createQuery("from Executor").list();
-    }
-
-    @Transactional("hibernateTransactionManager2013")
-    public void addExecutors(Executor executor) {
-        if(executor.getSortIdx()==null) {
-            Integer idx = (Integer)getSession().createCriteria(Executor.class).setProjection(Projections.max("sortIdx")).uniqueResult();
-            if(idx!=null && idx>=0) {
-                executor.setSortIdx(idx+1);
-            } else {
-                executor.setSortIdx(0);
-            }
-        }
-
-        getSession().save(executor);
-    }
-
-    @Transactional("hibernateTransactionManager2013")
-    public List<Complaint> getComplaintsList() {
-        return getSession().createQuery("from Complaint").list();
-    }
-
     @Transactional("hibernateTransactionManager2014")
     public void saveDictionaryItem(String entityName, String code, String text) {
         DictionaryItem item = new DictionaryItem(code,text);
-        getSession().save(entityName, item);
+        getSession2014().save(entityName, item);
     }
 
     @Transactional(readOnly = true)
@@ -81,5 +66,35 @@ public class DBService {
                 return count==1;
             }
         });
+    }
+
+    @Transactional(value = "hibernateTransactionManager2013", readOnly = true)
+    public List<jackal.objects.year2013.User> getUsersFromOldDatabase() {
+        return getSession2013().createQuery("from User").list();
+    }
+
+    @Transactional("hibernateTransactionManager2014")
+    public void saveUserNewDatabase(User user) {
+        getSession2014().save(user);
+    }
+
+    @Transactional(value = "hibernateTransactionManager2013", readOnly = true)
+    public List<jackal.objects.year2013.Executor> getExecutorsFromOldDatabase() {
+        return getSession2013().createQuery("from Executor").list();
+    }
+
+    @Transactional("hibernateTransactionManager2014")
+    public void saveExecutorNewDatabase(Executor executor) {
+        getSession2014().save(executor);
+    }
+
+    @Transactional(value = "hibernateTransactionManager2013", readOnly = true)
+    public List<jackal.objects.year2013.Holiday> getHolidaysFromOldDatabase() {
+        return getSession2013().createQuery("from Holiday").list();
+    }
+
+    @Transactional("hibernateTransactionManager2014")
+    public void saveHolidayNewDatabase(Holiday holiday) {
+        getSession2014().save(holiday);
     }
 }

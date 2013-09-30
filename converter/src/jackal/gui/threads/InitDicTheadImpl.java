@@ -13,30 +13,10 @@ import org.hibernate.HibernateException;
  * $Author:$
  * $Date:$
  */
-public class InitDicTheadImpl implements Runnable,LongOperations {
-
-    private UICallback ui;
-    private boolean cancaled = false;
-    private boolean executed = false;
+public class InitDicTheadImpl extends CommonImpotThreadImpl {
 
     public InitDicTheadImpl(UICallback ui) {
-        this.ui = ui;
-    }
-
-    private synchronized boolean isCancaled() {
-        return cancaled;
-    }
-
-    @Override
-    public synchronized void execute() {
-        if (executed) {
-            throw new IllegalStateException("Thread already executed");
-        } else {
-            executed = true;
-            ui.disableButtons();
-            Thread t = new Thread(this);
-            t.start();
-        }
+        super(ui);
     }
 
     @Override
@@ -47,7 +27,7 @@ public class InitDicTheadImpl implements Runnable,LongOperations {
         Признак жалобы
          */
             ui.addUserMessageFromOuterMethod("Инициализация справочника \"Признак жалобы\"");
-            service.saveDictionaryItem("ComplaintDiscrimina!te","1","Жалоба на решения, вынесенные налоговыми органами в порядке статьи 101 Кодекса");
+            service.saveDictionaryItem("ComplaintDiscriminate","1","Жалоба на решения, вынесенные налоговыми органами в порядке статьи 101 Кодекса");
             service.saveDictionaryItem("ComplaintDiscriminate","2","Жалоба на решения, вынесенные налоговыми органами в порядке статьи 101.4 Кодекса");
             service.saveDictionaryItem("ComplaintDiscriminate","3","Жалоба (обращение) на действия и (или) бездействие должностных лиц налоговых органов (налоговые споры)");
             service.saveDictionaryItem("ComplaintDiscriminate","4","Апелляционная жалоба");
@@ -162,10 +142,5 @@ public class InitDicTheadImpl implements Runnable,LongOperations {
         }
         ui.addUserMessageFromOuterMethod("Инициализация справочников завершена.");
         ui.enableButtons();
-    }
-
-    @Override
-    public synchronized void cancel() {
-        cancaled = true;
     }
 }

@@ -1,6 +1,5 @@
 package jackal.objects.year2013;
 
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
@@ -933,24 +932,29 @@ public class Complaint implements Serializable {
     public void calculateStatus() {
         DateTime decisionDate = null;
         if(this.decisionDate !=null) {
-            decisionDate = new DateMidnight(this.decisionDate).toDateTime();
+            decisionDate = new DateTime(this.decisionDate).withTimeAtStartOfDay();
+            //decisionDate = new DateMidnight(this.decisionDate).toDateTime();
         }
         DateTime deadline;
         if(prolongationDate==null) {
             if(deadline1.after(deadline2)) {
-                deadline =  new DateMidnight(deadline2).toDateTime();
+                deadline = new DateTime(deadline2).withTimeAtStartOfDay();
+                //deadline =  new DateMidnight(deadline2).toDateTime();
             } else {
-                deadline =  new DateMidnight(deadline1).toDateTime();
+                deadline = new DateTime(deadline1).withTimeAtStartOfDay();
+                //deadline =  new DateMidnight(deadline1).toDateTime();
             }
         } else {
             if(deadline3.after(deadline4)) {
-                deadline =  new DateMidnight(deadline4).toDateTime();
+                deadline = new DateTime(deadline4).withTimeAtStartOfDay();
+                //deadline =  new DateMidnight(deadline4).toDateTime();
             } else {
-                deadline =  new DateMidnight(deadline3).toDateTime();
+                deadline = new DateTime(deadline3).withTimeAtStartOfDay();
+                //deadline =  new DateMidnight(deadline3).toDateTime();
             }
 
         }
-        DateTime revocDate = new DateMidnight(revocationDate).toDateTime();
+        DateTime revocDate = new DateTime(revocationDate).withTimeAtStartOfDay();
         if(decisionDate!=null) {
             if(decisionDate.isBefore(deadline) || decisionDate.equals(deadline)) {
                 status = Complaint.ComplaintStatus.csPerformed;

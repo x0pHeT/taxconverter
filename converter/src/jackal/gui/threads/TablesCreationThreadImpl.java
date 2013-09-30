@@ -12,38 +12,13 @@ import jackal.support.ContextHolder;
  * $Author:$
  * $Date:$
  */
-public class TablesCreationThreadImpl implements Runnable, LongOperations {
+public class TablesCreationThreadImpl extends CommonImpotThreadImpl {
 
-    private boolean executed = false;
-    private boolean canceled = false;
-    private UICallback ui;
     private String[] scripts;
 
     public TablesCreationThreadImpl(UICallback ui, String[] script) {
-        this.ui = ui;
+        super(ui);
         this.scripts = script;
-    }
-
-    @Override
-    public synchronized void cancel() {
-        canceled = true;
-    }
-
-    private synchronized boolean isCanceled() {
-        return canceled;
-    }
-
-    @Override
-    public synchronized void execute() {
-        if(executed) {
-            throw new IllegalStateException("Thread is already executed");
-        }
-        else {
-            ui.disableButtons();
-            executed = true;
-            Thread t = new Thread(this,"LongOperations thread");
-            t.start();
-        }
     }
 
     @Override
@@ -58,7 +33,12 @@ public class TablesCreationThreadImpl implements Runnable, LongOperations {
                 return;
             }
             ui.addUserMessageFromOuterMethod("Выполняем скрипт ["+scripts[i]+"]");
-            service.createTable(scripts[i]);
+            try {
+                service.createTable(scripts[i]);
+            } catch (Exception e) {
+                ui.addUserMessageFromOuterMethod("Ошибка выполнения скрипта");
+                ui.addUserMessageFromOuterMethod(e.getMessage());
+            }
         }
         ui.addUserMessageFromOuterMethod("Все скрипты выполнены");
         ui.enableButtons();
